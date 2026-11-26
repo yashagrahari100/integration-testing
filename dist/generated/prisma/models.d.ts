@@ -1,2 +1,2 @@
-export type * from './models/Request';
-export type * from './commonInputTypes';
+export type * from './models/Request.js';
+export type * from './commonInputTypes.js';

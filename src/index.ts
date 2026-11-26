@@ -1,6 +1,6 @@
 import express from "express";
 
-import { prisma } from "./lib/prisma"
+import { prisma } from "./lib/prisma.js"
 
 export const app = express();
 
