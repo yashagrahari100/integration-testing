@@ -23,22 +23,19 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v7
 
+      
 
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v3
-
-      - name: Generate Prisma Client
-        run: npx prisma generate --config prisma7.config.ts
+      # 3. Install dependencies
+      - name: Install dependencies
+        run: npm ci --include=optional
 
       # 4. Create environment file
       - name: Setup environment
         run: cp .env.example .env
 
-      # 5. Install dependencies
-      - name: Install dependencies
-        run: npm ci --include=optional
-
-      
+      # 5. Generate Prisma Client using local Prisma 7
+      - name: Generate Prisma Client
+        run: npx prisma generate --config prisma7.config.ts
 
       # 6. Run integration tests
       - name: Run integration tests
