@@ -1,0 +1,54 @@
+
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches:
+      - main
+
+  pull_request:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+jobs:
+  integration-test:
+    name: Integration Testing
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: ./app1
+
+    steps:
+      # 1. Checkout repository
+      - name: Checkout code
+        uses: actions/checkout@v7
+
+      # 2. Setup Node.js
+      - name: Setup Node.js
+        uses: actions/setup-node@v7
+        with:
+          node-version: 24
+          cache: npm
+          cache-dependency-path: app1/package-lock.json
+
+      # 3. Check Docker
+      - name: Check Docker and Compose
+        run: |
+          docker --version
+          docker compose version
+
+      # 4. Create environment file
+      - name: Setup environment
+        run: cp .env.example .env
+
+      # 5. Install dependencies
+      - name: Install dependencies
+        run: npm ci --include=optional
+
+      # 6. Run integration tests
+      - name: Run integration tests
+        run: npm run test:integration
