@@ -17,7 +17,7 @@ jobs:
   integration-test:
     name: Integration Testing
     runs-on: ubuntu-latest
-    
+
     steps:
       # 1. Checkout repository
       - name: Checkout code
@@ -27,6 +27,9 @@ jobs:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
 
+      - name: Generate Prisma Client
+        run: npx prisma generate --config prisma7.config.ts
+
       # 4. Create environment file
       - name: Setup environment
         run: cp .env.example .env
@@ -34,6 +37,8 @@ jobs:
       # 5. Install dependencies
       - name: Install dependencies
         run: npm ci --include=optional
+
+      
 
       # 6. Run integration tests
       - name: Run integration tests
